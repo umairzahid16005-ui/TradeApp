@@ -1,0 +1,73 @@
+// use prisma-8
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+
+  createdAt TimestamptzString @default(now())
+  updatedAt temporal.updatedAtString()
+
+  predictions   Prediction[]
+  subscriptions Subscription[]
+  payments      Payment[]
+}
+
+model MarketData {
+  id         Int      @id @default(autoincrement())
+  platform   String
+  symbol     String
+  price      Float
+  volume     Float?
+  change24h  Float?
+  recordedAt TimestamptzString @default(now())
+
+  @@index([platform, symbol])
+  @@index([recordedAt])
+}
+
+model Prediction {
+  id         Int      @id @default(autoincrement())
+  userId     Int?
+  symbol     String
+  prediction String
+  confidence Float
+  riskLevel  String?
+
+  createdAt TimestamptzString @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([symbol])
+  @@index([createdAt])
+}
+
+model Subscription {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  plan      String
+  status    String
+  startedAt TimestamptzString @default(now())
+  expiresAt TimestamptzString?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model Payment {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  amount        Float
+  currency      String
+  gateway       String
+  transactionId String?
+  status        String
+
+  createdAt TimestamptzString @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
