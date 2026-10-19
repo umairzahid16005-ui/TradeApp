@@ -1,0 +1,119 @@
+[
+  {
+    "id": "table.marketCandle",
+    "label": "Create table \"marketCandle\"",
+    "summary": "Creates table \"marketCandle\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "marketCandle"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"marketCandle\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketCandle\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"marketCandle\"",
+        "sql": "CREATE TABLE \"public\".\"marketCandle\" (\n  \"candleTime\" timestamptz NOT NULL,\n  \"close\" float8 NOT NULL,\n  \"high\" float8 NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"low\" float8 NOT NULL,\n  \"open\" float8 NOT NULL,\n  \"platform\" text NOT NULL,\n  \"symbol\" text NOT NULL,\n  \"timeframe\" text NOT NULL,\n  \"volume\" float8,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"marketCandle\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketCandle\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.marketCandle.marketCandle_candleTime_idx_dc9584cb",
+    "label": "Create index \"marketCandle_candleTime_idx_dc9584cb\" on \"marketCandle\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "marketCandle_candleTime_idx_dc9584cb",
+        "table": "marketCandle"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"marketCandle_candleTime_idx_dc9584cb\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketCandle_candleTime_idx_dc9584cb\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"marketCandle_candleTime_idx_dc9584cb\"",
+        "sql": "CREATE INDEX \"marketCandle_candleTime_idx_dc9584cb\" ON \"public\".\"marketCandle\" (\"candleTime\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"marketCandle_candleTime_idx_dc9584cb\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketCandle_candleTime_idx_dc9584cb\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.marketCandle.marketCandle_platform_symbol_timeframe_idx_4d05798e",
+    "label": "Create index \"marketCandle_platform_symbol_timeframe_idx_4d05798e\" on \"marketCandle\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "marketCandle_platform_symbol_timeframe_idx_4d05798e",
+        "table": "marketCandle"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"marketCandle_platform_symbol_timeframe_idx_4d05798e\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketCandle_platform_symbol_timeframe_idx_4d05798e\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"marketCandle_platform_symbol_timeframe_idx_4d05798e\"",
+        "sql": "CREATE INDEX \"marketCandle_platform_symbol_timeframe_idx_4d05798e\" ON \"public\".\"marketCandle\" (\"platform\", \"symbol\", \"timeframe\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"marketCandle_platform_symbol_timeframe_idx_4d05798e\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketCandle_platform_symbol_timeframe_idx_4d05798e\""
+        ]
+      }
+    ]
+  }
+]

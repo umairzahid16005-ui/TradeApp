@@ -1,0 +1,655 @@
+[
+  {
+    "id": "schema.public",
+    "label": "Create schema \"public\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres"
+    },
+    "precheck": [],
+    "execute": [
+      {
+        "description": "Create schema \"public\"",
+        "sql": "CREATE SCHEMA IF NOT EXISTS \"public\"",
+        "params": []
+      }
+    ],
+    "postcheck": []
+  },
+  {
+    "id": "table.marketData",
+    "label": "Create table \"marketData\"",
+    "summary": "Creates table \"marketData\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "marketData"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"marketData\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketData\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"marketData\"",
+        "sql": "CREATE TABLE \"public\".\"marketData\" (\n  \"change24h\" float8,\n  \"id\" SERIAL NOT NULL,\n  \"platform\" text NOT NULL,\n  \"price\" float8 NOT NULL,\n  \"recordedAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"symbol\" text NOT NULL,\n  \"volume\" float8,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"marketData\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketData\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.payment",
+    "label": "Create table \"payment\"",
+    "summary": "Creates table \"payment\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "payment"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"payment\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"payment\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"payment\"",
+        "sql": "CREATE TABLE \"public\".\"payment\" (\n  \"amount\" float8 NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"currency\" text NOT NULL,\n  \"gateway\" text NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"status\" text NOT NULL,\n  \"transactionId\" text,\n  \"userId\" int4 NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"payment\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"payment\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.prediction",
+    "label": "Create table \"prediction\"",
+    "summary": "Creates table \"prediction\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "prediction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"prediction\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prediction\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"prediction\"",
+        "sql": "CREATE TABLE \"public\".\"prediction\" (\n  \"confidence\" float8 NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"prediction\" text NOT NULL,\n  \"riskLevel\" text,\n  \"symbol\" text NOT NULL,\n  \"userId\" int4,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"prediction\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prediction\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.subscription",
+    "label": "Create table \"subscription\"",
+    "summary": "Creates table \"subscription\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "subscription"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"subscription\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"subscription\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"subscription\"",
+        "sql": "CREATE TABLE \"public\".\"subscription\" (\n  \"expiresAt\" timestamptz,\n  \"id\" SERIAL NOT NULL,\n  \"plan\" text NOT NULL,\n  \"startedAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"status\" text NOT NULL,\n  \"userId\" int4 NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"subscription\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"subscription\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.user",
+    "label": "Create table \"user\"",
+    "summary": "Creates table \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"user\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"user\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"user\"",
+        "sql": "CREATE TABLE \"public\".\"user\" (\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"email\" text NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"name\" text NOT NULL,\n  \"passwordHash\" text NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"user\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"user\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.user.user_email_key",
+    "label": "Add unique constraint on \"user\" (email)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "user_email_key",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"user_email_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_email_key",
+          "public",
+          "\"public\".\"user\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"user_email_key\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD CONSTRAINT \"user_email_key\" UNIQUE (\"email\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"user_email_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_email_key",
+          "public",
+          "\"public\".\"user\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.marketData.marketData_platform_symbol_idx_b215d5b7",
+    "label": "Create index \"marketData_platform_symbol_idx_b215d5b7\" on \"marketData\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "marketData_platform_symbol_idx_b215d5b7",
+        "table": "marketData"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"marketData_platform_symbol_idx_b215d5b7\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketData_platform_symbol_idx_b215d5b7\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"marketData_platform_symbol_idx_b215d5b7\"",
+        "sql": "CREATE INDEX \"marketData_platform_symbol_idx_b215d5b7\" ON \"public\".\"marketData\" (\"platform\", \"symbol\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"marketData_platform_symbol_idx_b215d5b7\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketData_platform_symbol_idx_b215d5b7\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.marketData.marketData_recordedAt_idx_fd5b4732",
+    "label": "Create index \"marketData_recordedAt_idx_fd5b4732\" on \"marketData\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "marketData_recordedAt_idx_fd5b4732",
+        "table": "marketData"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"marketData_recordedAt_idx_fd5b4732\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketData_recordedAt_idx_fd5b4732\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"marketData_recordedAt_idx_fd5b4732\"",
+        "sql": "CREATE INDEX \"marketData_recordedAt_idx_fd5b4732\" ON \"public\".\"marketData\" (\"recordedAt\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"marketData_recordedAt_idx_fd5b4732\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"marketData_recordedAt_idx_fd5b4732\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.payment.payment_userId_idx_a489d58a",
+    "label": "Create index \"payment_userId_idx_a489d58a\" on \"payment\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "payment_userId_idx_a489d58a",
+        "table": "payment"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"payment_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"payment_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"payment_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"payment_userId_idx_a489d58a\" ON \"public\".\"payment\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"payment_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"payment_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.prediction.prediction_createdAt_idx_9575dbd7",
+    "label": "Create index \"prediction_createdAt_idx_9575dbd7\" on \"prediction\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "prediction_createdAt_idx_9575dbd7",
+        "table": "prediction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"prediction_createdAt_idx_9575dbd7\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prediction_createdAt_idx_9575dbd7\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"prediction_createdAt_idx_9575dbd7\"",
+        "sql": "CREATE INDEX \"prediction_createdAt_idx_9575dbd7\" ON \"public\".\"prediction\" (\"createdAt\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"prediction_createdAt_idx_9575dbd7\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prediction_createdAt_idx_9575dbd7\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.prediction.prediction_symbol_idx_e143cfc5",
+    "label": "Create index \"prediction_symbol_idx_e143cfc5\" on \"prediction\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "prediction_symbol_idx_e143cfc5",
+        "table": "prediction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"prediction_symbol_idx_e143cfc5\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prediction_symbol_idx_e143cfc5\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"prediction_symbol_idx_e143cfc5\"",
+        "sql": "CREATE INDEX \"prediction_symbol_idx_e143cfc5\" ON \"public\".\"prediction\" (\"symbol\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"prediction_symbol_idx_e143cfc5\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prediction_symbol_idx_e143cfc5\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.prediction.prediction_userId_idx_a489d58a",
+    "label": "Create index \"prediction_userId_idx_a489d58a\" on \"prediction\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "prediction_userId_idx_a489d58a",
+        "table": "prediction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"prediction_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prediction_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"prediction_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"prediction_userId_idx_a489d58a\" ON \"public\".\"prediction\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"prediction_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prediction_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.subscription.subscription_userId_idx_a489d58a",
+    "label": "Create index \"subscription_userId_idx_a489d58a\" on \"subscription\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "subscription_userId_idx_a489d58a",
+        "table": "subscription"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"subscription_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"subscription_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"subscription_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"subscription_userId_idx_a489d58a\" ON \"public\".\"subscription\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"subscription_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"subscription_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.payment.payment_userId_fkey",
+    "label": "Add foreign key \"payment_userId_fkey\" on \"payment\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "payment_userId_fkey",
+        "table": "payment"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"payment_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "payment_userId_fkey",
+          "public",
+          "\"public\".\"payment\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"payment_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"payment\"\nADD CONSTRAINT \"payment_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"payment_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "payment_userId_fkey",
+          "public",
+          "\"public\".\"payment\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.prediction.prediction_userId_fkey",
+    "label": "Add foreign key \"prediction_userId_fkey\" on \"prediction\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "prediction_userId_fkey",
+        "table": "prediction"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"prediction_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "prediction_userId_fkey",
+          "public",
+          "\"public\".\"prediction\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"prediction_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"prediction\"\nADD CONSTRAINT \"prediction_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"prediction_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "prediction_userId_fkey",
+          "public",
+          "\"public\".\"prediction\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.subscription.subscription_userId_fkey",
+    "label": "Add foreign key \"subscription_userId_fkey\" on \"subscription\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "subscription_userId_fkey",
+        "table": "subscription"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"subscription_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "subscription_userId_fkey",
+          "public",
+          "\"public\".\"subscription\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"subscription_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"subscription\"\nADD CONSTRAINT \"subscription_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"subscription_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "subscription_userId_fkey",
+          "public",
+          "\"public\".\"subscription\""
+        ]
+      }
+    ]
+  }
+]

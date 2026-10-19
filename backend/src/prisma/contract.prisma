@@ -1,10 +1,12 @@
-// use prisma-8
+
+ // use prisma-8
 
 model User {
   id           Int      @id @default(autoincrement())
   name         String
   email        String   @unique
   passwordHash String
+  role         String   @default("USER")
 
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
@@ -27,6 +29,22 @@ model MarketData {
   @@index([recordedAt])
 }
 
+model MarketCandle {
+  id         Int      @id @default(autoincrement())
+  platform   String
+  symbol     String
+  timeframe  String
+  open       Float
+  high       Float
+  low        Float
+  close      Float
+  volume     Float?
+  candleTime TimestamptzString
+
+  @@index([platform, symbol, timeframe])
+  @@index([candleTime])
+}
+
 model Prediction {
   id         Int      @id @default(autoincrement())
   userId     Int?
@@ -34,8 +52,7 @@ model Prediction {
   prediction String
   confidence Float
   riskLevel  String?
-
-  createdAt TimestamptzString @default(now())
+  createdAt  TimestamptzString @default(now())
 
   user User? @relation(fields: [userId], references: [id])
 
@@ -64,8 +81,7 @@ model Payment {
   gateway       String
   transactionId String?
   status        String
-
-  createdAt TimestamptzString @default(now())
+  createdAt     TimestamptzString @default(now())
 
   user User @relation(fields: [userId], references: [id])
 

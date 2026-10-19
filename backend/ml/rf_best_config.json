@@ -1,0 +1,12 @@
+{
+  "n_estimators": 200,
+  "max_depth": 6,
+  "min_samples_leaf": 10,
+  "max_features": 0.7,
+  "maePct": 0.692455,
+  "rmsePct": 1.008886,
+  "directionAccuracyPct": 50.75,
+  "avgTrainingSeconds": 3.31,
+  "totalTrainingSeconds": 16.552,
+  "totalPredictionSeconds": 0.728
+}

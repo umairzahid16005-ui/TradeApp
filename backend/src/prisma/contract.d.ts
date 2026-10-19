@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'f3d31e527c3cb6e7486544865bebc534572779813134bd300973f285a6457be1'>;
+  StorageHashBase<'2c04da668d8d38c839f381977143101b29b77077205e35e9d7a0ed1a87238474'>;
 export type ExecutionHash =
   ExecutionHashBase<'a499031370d1fd1891ca11072d3f7e11be752b686057f7c6d0900ee0159f4ed0'>;
 export type ProfileHash =
@@ -242,6 +242,18 @@ type DefaultLiteralValue<CodecId extends string, Encoded> = CodecId extends keyo
 
 export type FieldOutputTypes = {
   readonly public: {
+    readonly MarketCandle: {
+      readonly id: CodecTypes['pg/int4@1']['output'];
+      readonly platform: CodecTypes['pg/text@1']['output'];
+      readonly symbol: CodecTypes['pg/text@1']['output'];
+      readonly timeframe: CodecTypes['pg/text@1']['output'];
+      readonly open: CodecTypes['pg/float8@1']['output'];
+      readonly high: CodecTypes['pg/float8@1']['output'];
+      readonly low: CodecTypes['pg/float8@1']['output'];
+      readonly close: CodecTypes['pg/float8@1']['output'];
+      readonly volume: CodecTypes['pg/float8@1']['output'] | null;
+      readonly candleTime: CodecTypes['pg/timestamptz-string@1']['output'];
+    };
     readonly MarketData: {
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly platform: CodecTypes['pg/text@1']['output'];
@@ -283,6 +295,7 @@ export type FieldOutputTypes = {
       readonly name: CodecTypes['pg/text@1']['output'];
       readonly email: CodecTypes['pg/text@1']['output'];
       readonly passwordHash: CodecTypes['pg/text@1']['output'];
+      readonly role: CodecTypes['pg/text@1']['output'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
@@ -290,6 +303,18 @@ export type FieldOutputTypes = {
 };
 export type FieldInputTypes = {
   readonly public: {
+    readonly MarketCandle: {
+      readonly id: CodecTypes['pg/int4@1']['input'];
+      readonly platform: CodecTypes['pg/text@1']['input'];
+      readonly symbol: CodecTypes['pg/text@1']['input'];
+      readonly timeframe: CodecTypes['pg/text@1']['input'];
+      readonly open: CodecTypes['pg/float8@1']['input'];
+      readonly high: CodecTypes['pg/float8@1']['input'];
+      readonly low: CodecTypes['pg/float8@1']['input'];
+      readonly close: CodecTypes['pg/float8@1']['input'];
+      readonly volume: CodecTypes['pg/float8@1']['input'] | null;
+      readonly candleTime: CodecTypes['pg/timestamptz-string@1']['input'];
+    };
     readonly MarketData: {
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly platform: CodecTypes['pg/text@1']['input'];
@@ -331,6 +356,7 @@ export type FieldInputTypes = {
       readonly name: CodecTypes['pg/text@1']['input'];
       readonly email: CodecTypes['pg/text@1']['input'];
       readonly passwordHash: CodecTypes['pg/text@1']['input'];
+      readonly role: CodecTypes['pg/text@1']['input'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
     };
@@ -338,6 +364,18 @@ export type FieldInputTypes = {
 };
 export type StorageColumnTypes = {
   readonly public: {
+    readonly marketCandle: {
+      readonly candleTime: CodecTypes['pg/timestamptz-string@1']['output'];
+      readonly close: CodecTypes['pg/float8@1']['output'];
+      readonly high: CodecTypes['pg/float8@1']['output'];
+      readonly id: CodecTypes['pg/int4@1']['output'];
+      readonly low: CodecTypes['pg/float8@1']['output'];
+      readonly open: CodecTypes['pg/float8@1']['output'];
+      readonly platform: CodecTypes['pg/text@1']['output'];
+      readonly symbol: CodecTypes['pg/text@1']['output'];
+      readonly timeframe: CodecTypes['pg/text@1']['output'];
+      readonly volume: CodecTypes['pg/float8@1']['output'] | null;
+    };
     readonly marketData: {
       readonly change24h: CodecTypes['pg/float8@1']['output'] | null;
       readonly id: CodecTypes['pg/int4@1']['output'];
@@ -380,12 +418,25 @@ export type StorageColumnTypes = {
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly name: CodecTypes['pg/text@1']['output'];
       readonly passwordHash: CodecTypes['pg/text@1']['output'];
+      readonly role: CodecTypes['pg/text@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
   };
 };
 export type StorageColumnInputTypes = {
   readonly public: {
+    readonly marketCandle: {
+      readonly candleTime: CodecTypes['pg/timestamptz-string@1']['input'];
+      readonly close: CodecTypes['pg/float8@1']['input'];
+      readonly high: CodecTypes['pg/float8@1']['input'];
+      readonly id: CodecTypes['pg/int4@1']['input'];
+      readonly low: CodecTypes['pg/float8@1']['input'];
+      readonly open: CodecTypes['pg/float8@1']['input'];
+      readonly platform: CodecTypes['pg/text@1']['input'];
+      readonly symbol: CodecTypes['pg/text@1']['input'];
+      readonly timeframe: CodecTypes['pg/text@1']['input'];
+      readonly volume: CodecTypes['pg/float8@1']['input'] | null;
+    };
     readonly marketData: {
       readonly change24h: CodecTypes['pg/float8@1']['input'] | null;
       readonly id: CodecTypes['pg/int4@1']['input'];
@@ -428,6 +479,7 @@ export type StorageColumnInputTypes = {
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly name: CodecTypes['pg/text@1']['input'];
       readonly passwordHash: CodecTypes['pg/text@1']['input'];
+      readonly role: CodecTypes['pg/text@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
     };
   };
@@ -439,6 +491,7 @@ export namespace Models {
     name: CodecTypes['pg/text@1']['output'];
     email: CodecTypes['pg/text@1']['output'];
     passwordHash: CodecTypes['pg/text@1']['output'];
+    role: CodecTypes['pg/text@1']['output'];
     createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     payments: public_Payment[];
@@ -454,6 +507,19 @@ export namespace Models {
     volume: CodecTypes['pg/float8@1']['output'] | null;
     change24h: CodecTypes['pg/float8@1']['output'] | null;
     recordedAt: CodecTypes['pg/timestamptz-string@1']['output'];
+    readonly [RelationKeys]?: never;
+  };
+  export type public_MarketCandle = {
+    id: CodecTypes['pg/int4@1']['output'];
+    platform: CodecTypes['pg/text@1']['output'];
+    symbol: CodecTypes['pg/text@1']['output'];
+    timeframe: CodecTypes['pg/text@1']['output'];
+    open: CodecTypes['pg/float8@1']['output'];
+    high: CodecTypes['pg/float8@1']['output'];
+    low: CodecTypes['pg/float8@1']['output'];
+    close: CodecTypes['pg/float8@1']['output'];
+    volume: CodecTypes['pg/float8@1']['output'] | null;
+    candleTime: CodecTypes['pg/timestamptz-string@1']['output'];
     readonly [RelationKeys]?: never;
   };
   export type public_Prediction = {
@@ -495,6 +561,7 @@ export declare const models: {
   public: {
     User: Models.public_User;
     MarketData: Models.public_MarketData;
+    MarketCandle: Models.public_MarketCandle;
     Prediction: Models.public_Prediction;
     Subscription: Models.public_Subscription;
     Payment: Models.public_Payment;
@@ -519,6 +586,81 @@ type ContractBase = Omit<
         readonly kind: 'postgres-schema';
         readonly entries: {
           readonly table: {
+            readonly marketCandle: {
+              columns: {
+                readonly id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                };
+                readonly platform: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly symbol: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly timeframe: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly open: {
+                  readonly nativeType: 'float8';
+                  readonly codecId: 'pg/float8@1';
+                  readonly nullable: false;
+                };
+                readonly high: {
+                  readonly nativeType: 'float8';
+                  readonly codecId: 'pg/float8@1';
+                  readonly nullable: false;
+                };
+                readonly low: {
+                  readonly nativeType: 'float8';
+                  readonly codecId: 'pg/float8@1';
+                  readonly nullable: false;
+                };
+                readonly close: {
+                  readonly nativeType: 'float8';
+                  readonly codecId: 'pg/float8@1';
+                  readonly nullable: false;
+                };
+                readonly volume: {
+                  readonly nativeType: 'float8';
+                  readonly codecId: 'pg/float8@1';
+                  readonly nullable: true;
+                };
+                readonly candleTime: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-string@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'marketCandle_platform_symbol_timeframe_idx_4d05798e';
+                  readonly prefix: 'marketCandle_platform_symbol_timeframe_idx';
+                  readonly columns: readonly ['platform', 'symbol', 'timeframe'];
+                  readonly unique: false;
+                },
+                {
+                  readonly name: 'marketCandle_candleTime_idx_dc9584cb';
+                  readonly prefix: 'marketCandle_candleTime_idx';
+                  readonly columns: readonly ['candleTime'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [];
+            };
             readonly marketData: {
               columns: {
                 readonly id: {
@@ -822,6 +964,15 @@ type ContractBase = Omit<
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
                 };
+                readonly role: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'USER'>;
+                  };
+                };
                 readonly createdAt: {
                   readonly nativeType: 'timestamptz';
                   readonly codecId: 'pg/timestamptz-string@1';
@@ -855,6 +1006,10 @@ type ContractBase = Omit<
       readonly namespace: 'public' & NamespaceId;
       readonly model: 'MarketData';
     };
+    readonly marketCandle: {
+      readonly namespace: 'public' & NamespaceId;
+      readonly model: 'MarketCandle';
+    };
     readonly prediction: {
       readonly namespace: 'public' & NamespaceId;
       readonly model: 'Prediction';
@@ -869,6 +1024,70 @@ type ContractBase = Omit<
     readonly namespaces: {
       readonly public: {
         readonly models: {
+          readonly MarketCandle: {
+            readonly fields: {
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly platform: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly symbol: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly timeframe: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly open: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
+              readonly high: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
+              readonly low: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
+              readonly close: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
+              readonly volume: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
+              readonly candleTime: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-string@1';
+                };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'marketCandle';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly id: { readonly column: 'id' };
+                readonly platform: { readonly column: 'platform' };
+                readonly symbol: { readonly column: 'symbol' };
+                readonly timeframe: { readonly column: 'timeframe' };
+                readonly open: { readonly column: 'open' };
+                readonly high: { readonly column: 'high' };
+                readonly low: { readonly column: 'low' };
+                readonly close: { readonly column: 'close' };
+                readonly volume: { readonly column: 'volume' };
+                readonly candleTime: { readonly column: 'candleTime' };
+              };
+            };
+          };
           readonly MarketData: {
             readonly fields: {
               readonly id: {
@@ -1116,6 +1335,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly role: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly createdAt: {
                 readonly nullable: false;
                 readonly type: {
@@ -1174,6 +1397,7 @@ type ContractBase = Omit<
                 readonly name: { readonly column: 'name' };
                 readonly email: { readonly column: 'email' };
                 readonly passwordHash: { readonly column: 'passwordHash' };
+                readonly role: { readonly column: 'role' };
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };

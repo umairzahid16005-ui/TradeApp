@@ -1,0 +1,17 @@
+{
+  "model": "RandomForestRegressor",
+  "parameters": {
+    "n_estimators": 200,
+    "max_depth": 6,
+    "min_samples_leaf": 10,
+    "max_features": 0.7
+  },
+  "trainingSamples": 3951,
+  "testSamples": 990,
+  "holdoutPeriod": "Latest 20% of usable data",
+  "maePct": 0.678128,
+  "rmsePct": 1.006179,
+  "directionAccuracyPct": 51.21,
+  "trainingSeconds": 6.248,
+  "predictionSeconds": 0.235
+}
